@@ -8,30 +8,28 @@
 <body>
 <div class="min-h-screen bg-gray-900 flex justify-center items-center">
     <div class="bg-white p-8 rounded-lg shadow-md w-96">
-            <h2 class="text-center text-2xl font-bold mb-4">Welcome to TitanML!</h2>
-            <p class="text-center mb-6 text-gray-500">Please provide some additional information to proceed</p>
+        <h2 class="text-center text-2xl font-bold mb-4">Welcome to TitanML!</h2>
+        <p class="text-center mb-6 text-gray-500">Please provide some additional information to proceed</p>
 
         <form id="userForm" method="POST">
             <label for="organization" class="text-gray-500 text-xs">Organization</label>
             <input type="text" id="organization" name="organization" placeholder="ACME Inc." class="mb-4 mt-1 w-full p-2 border rounded focus:border-blue-500">
-            
-            <!-- Privacy Policy Modal Trigger & Checkbox -->
-            <label class="flex items-center mb-4 text-gray-500 text-sm">
-                <input type="checkbox" name="acceptPrivacyPolicy" class="mr-2">
-                <p>I accept the <a href="#" class="text-blue-500 underline" onclick="openModal()">privacy policy</a>.</p>
-            </label>
-            
-            <!-- Consent Checkbox -->
+
             <label class="flex items-center mb-4 text-gray-500 text-sm">
                 <input type="checkbox" name="consentEmails" class="mr-2">
                 I consent to receive marketing emails from TitanML.
             </label>
-            
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white w-full p-2 rounded">Submit</button>
+
+            <label class="flex items-center mb-4 text-gray-500 text-sm">
+                <input type="checkbox" id="privacyCheckbox" name="acceptPrivacyPolicy" class="mr-2">
+                <p>I accept the <a href="#" class="text-blue-500 underline" onclick="openModal()">terms of use</a><sup class="text-red-500">*</sup>.</p>
+            </label>
+
+            <button type="submit" id="submitButton" class="bg-gray-500 cursor-not-allowed text-white w-full p-2 rounded" disabled title="Please accept the terms and conditions to proceed.">Submit</button>
         </form>
     </div>
+</div>
              
-    <!-- Privacy Policy Modal -->
     <!-- Privacy Policy Modal -->
   <div id="privacyModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden flex justify-center items-center" onclick="closeModalOnOutsideClick(event)">
       <div class="bg-white p-6 w-3/4 h-3/4 overflow-auto rounded-lg">
@@ -14488,6 +14486,20 @@
         // submit the form
         event.target.submit()
 
+    });
+    document.getElementById('privacyCheckbox').addEventListener('change', function() {
+        const submitButton = document.getElementById('submitButton');
+        if (this.checked) {
+            submitButton.classList.remove('bg-gray-500', 'cursor-not-allowed');
+            submitButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            submitButton.disabled = false;
+            submitButton.removeAttribute('title');  // Remove the title attribute when enabled
+        } else {
+            submitButton.classList.add('bg-gray-500', 'cursor-not-allowed');
+            submitButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+            submitButton.disabled = true;
+            submitButton.setAttribute('title', 'Please accept the privacy policy to proceed.');  // Set the title attribute when disabled
+        }
     });
 </script>
 
